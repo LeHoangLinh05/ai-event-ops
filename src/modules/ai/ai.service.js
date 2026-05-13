@@ -26,7 +26,7 @@ class AiService {
             - Event Type: ${data.eventType}
             - Theme: ${data.theme}
             - Target Segment: ${data.targetSegment}
-            - Duration: ${data.duration} days${data.startDate ? ` (${data.startDate} to ${data.endDate})` : ''}
+            - Duration: ${data.duration} days${data.startDate ? ` (Start: ${data.startDate}, End: ${data.endDate})` : ''}
             - Reward: ${data.reward}
             - Tone: ${data.tone}
 
@@ -44,6 +44,8 @@ class AiService {
             - No markdown formatting.
             - No explanation text.
             - Rules should be an array of strings.
+            - USE THE ACTUAL DATES provided above (${data.startDate} to ${data.endDate}) in the description and rules if applicable. 
+            - DO NOT use placeholders like [Start Date], [End Date], or [Duration]. Fill them with real values.
         `;
 
         try {
@@ -111,6 +113,8 @@ class AiService {
             - No markdown formatting.
             - No explanation text.
             ${isArrayField ? "- rules MUST be a JSON array of strings, not a single string." : ""}
+            - USE THE ACTUAL DATES provided in the context (${context.startDate} to ${context.endDate}) if relevant.
+            - DO NOT use placeholders like [Start Date] or [End Date].
         `;
 
         try {

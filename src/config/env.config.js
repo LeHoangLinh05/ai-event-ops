@@ -1,5 +1,7 @@
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
+
+console.log("Loaded Model from Env:", process.env.GEMINI_MODEL);
 
 const env = {
     PORT: process.env.PORT || 3000,
