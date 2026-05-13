@@ -24,19 +24,25 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
-      try {
+        try {
         setLoading(true)
         const response = await dashboardService.getStats()
-        setStats(response.data)
-      } catch (err: any) {
-        setError(err.message || 'Failed to load dashboard stats')
-      } finally {
-        setLoading(false)
-      }
+        const raw = response.data.data
+        setStats({
+            totalEvents: raw.events.total,
+            draftEvents: raw.events.draft,
+            publishedEvents: raw.events.published,
+            aiGenerationsToday: 0,
+        })
+        } catch (err: any) {
+            setError(err.message || 'Failed to load dashboard stats')
+        } finally { 
+            setLoading(false)
+        }
     }
 
-    fetchStats()
-  }, [])
+        fetchStats()
+}, [])
 
   if (loading) return <LoadingSpinner message="Loading dashboard..." />
   if (error) return <div className="error-message">{error}</div>

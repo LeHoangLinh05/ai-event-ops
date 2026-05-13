@@ -40,7 +40,7 @@ export const aiService = {
 
 // Dashboard APIs
 export const dashboardService = {
-  getStats: () => apiClient.get<DashboardStats>('/dashboard/stats'),
+  getStats: () => apiClient.get<DashboardStats>('/dashboard/summary'),
 }
 
 export default apiClient

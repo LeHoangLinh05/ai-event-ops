@@ -21,17 +21,17 @@ export const EventList = () => {
 
   const fetchEvents = async () => {
     try {
-      setLoading(true)
-      setError(null)
-      const response = await eventService.getEvents(page, limit, statusFilter || undefined, typeFilter || undefined)
-      setEvents(response.data.events)
-      setTotal(response.data.total)
+        setLoading(true)
+        setError(null)
+        const response = await eventService.getEvents(page, limit, statusFilter || undefined, typeFilter || undefined)
+        setEvents(response.data.data?.events ?? [])
+        setTotal(response.data.data?.total ?? 0) 
     } catch (err: any) {
-      setError(err.message || 'Failed to load events')
+        setError(err.message || 'Failed to load events')
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
-  }
+    }
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
