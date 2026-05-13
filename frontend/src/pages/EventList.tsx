@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Eye, Edit2, Trash2, X, Save } from 'lucide-react'
 import { eventService } from '@/services/apiService'
 import { LoadingSpinner } from '@/components'
@@ -8,11 +9,12 @@ import './EventList.css'
 type ModalMode = 'view' | 'edit' | null
 
 export const EventList = () => {
+  const [searchParams] = useSearchParams()
   const [events, setEvents] = useState<Event[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [limit] = useState(10)
-  const [statusFilter, setStatusFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState(searchParams.get('status') ?? '')
   const [typeFilter, setTypeFilter] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -271,24 +273,36 @@ const ViewDetail = ({ event }: { event: Event }) => (
         <p className="detail-value">{event.pushMessage}</p>
       </div>
     )}
-    {event.rules?.length > 0 && (
+    {(event.rules as any[])?.length > 0 && (
       <div className="detail-block">
         <span className="detail-label">Rules</span>
         <ul className="detail-list">
-          {event.rules.map((rule, i) => (
-            <li key={i}><strong>{rule.title}</strong>{rule.description ? ` — ${rule.description}` : ''}</li>
+          {(event.rules as any[]).map((rule, i) => (
+            <li key={i}>
+              {typeof rule === 'string'
+                ? rule
+                : <><strong>{rule.title}</strong>{rule.description ? ` — ${rule.description}` : ''}</>}
+            </li>
           ))}
         </ul>
       </div>
     )}
-    {event.rewardSuggestion?.length > 0 && (
+    {event.rewardSuggestion && (
       <div className="detail-block">
-        <span className="detail-label">Reward Items</span>
-        <ul className="detail-list">
-          {event.rewardSuggestion.map((item, i) => (
-            <li key={i}>{item.itemName} ×{item.quantity} <em>({item.rarity})</em></li>
-          ))}
-        </ul>
+        <span className="detail-label">Reward Suggestion</span>
+        {typeof event.rewardSuggestion === 'string' ? (
+          <p className="detail-value">{event.rewardSuggestion}</p>
+        ) : Array.isArray(event.rewardSuggestion) && (event.rewardSuggestion as any[]).length > 0 ? (
+          <ul className="detail-list">
+            {(event.rewardSuggestion as any[]).map((item, i) => (
+              <li key={i}>
+                {typeof item === 'string'
+                  ? item
+                  : `${item.itemName} ×${item.quantity} (${item.rarity})`}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     )}
     <div className="detail-row">

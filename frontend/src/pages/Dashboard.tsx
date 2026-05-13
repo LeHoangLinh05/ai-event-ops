@@ -1,12 +1,21 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { BarChart3, FileText, CheckCircle, Zap, Clock, Activity } from 'lucide-react'
 import { dashboardService } from '@/services/apiService'
 import { LoadingSpinner } from '@/components'
 import { DashboardStats } from '@/types'
 import './Dashboard.css'
 
-const StatCard = ({ icon, title, value, color }: { icon: React.ReactNode; title: string; value: number; color: string }) => (
-  <div className="stat-card" style={{ borderLeftColor: color }}>
+const StatCard = ({
+  icon, title, value, color, onClick,
+}: {
+  icon: React.ReactNode; title: string; value: number; color: string; onClick?: () => void
+}) => (
+  <div
+    className={`stat-card ${onClick ? 'stat-card-clickable' : ''}`}
+    style={{ borderLeftColor: color }}
+    onClick={onClick}
+  >
     <div className="stat-icon" style={{ color }}>{icon}</div>
     <div className="stat-info">
       <p className="stat-title">{title}</p>
@@ -33,6 +42,7 @@ function timeAgo(dateStr: string) {
 }
 
 export const Dashboard = () => {
+  const navigate = useNavigate()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -62,9 +72,9 @@ export const Dashboard = () => {
       {stats && (
         <>
           <div className="stats-grid">
-            <StatCard icon={<FileText size={24} />} title="Total Events" value={stats.totalEvents} color="#3b82f6" />
-            <StatCard icon={<BarChart3 size={24} />} title="Draft Events" value={stats.draftEvents} color="#f59e0b" />
-            <StatCard icon={<CheckCircle size={24} />} title="Published Events" value={stats.publishedEvents} color="#10b981" />
+            <StatCard icon={<FileText size={24} />} title="Total Events" value={stats.totalEvents} color="#3b82f6" onClick={() => navigate('/events')} />
+            <StatCard icon={<BarChart3 size={24} />} title="Draft Events" value={stats.draftEvents} color="#f59e0b" onClick={() => navigate('/events?status=draft')} />
+            <StatCard icon={<CheckCircle size={24} />} title="Published Events" value={stats.publishedEvents} color="#10b981" onClick={() => navigate('/events?status=published')} />
             <StatCard icon={<Zap size={24} />} title="AI Generations Today" value={stats.aiGenerationsToday} color="#8b5cf6" />
           </div>
 

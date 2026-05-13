@@ -34,6 +34,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.stat-card-clickable {
+  cursor: pointer;
+}
+
+.stat-card-clickable:active {
+  transform: translateY(0);
+}
+
 .stat-icon {
   display: flex;
   align-items: center;
