@@ -16,6 +16,9 @@ async function getDashboardSummary() {
         totalAuditLogs,
         totalAiGenerations,
         aiGenerationsToday,
+
+        latestEvents,
+        latestAuditLogs,
     ] = await Promise.all([
         Event.countDocuments(),
         Event.countDocuments({ status: "draft" }),
@@ -24,10 +27,12 @@ async function getDashboardSummary() {
         EventTemplate.countDocuments(),
         AuditLog.countDocuments(),
         AiGeneration.countDocuments({ status: "success" }),
-        AiGeneration.countDocuments({ 
-            status: "success", 
-            createdAt: { $gte: today } 
+        AiGeneration.countDocuments({
+            status: "success",
+            createdAt: { $gte: today }
         }),
+        Event.find().sort({ createdAt: -1 }).limit(3),
+        AuditLog.find().sort({ createdAt: -1 }).limit(3),
     ]);
 
     return {
@@ -35,6 +40,8 @@ async function getDashboardSummary() {
         draftEvents,
         publishedEvents,
         aiGenerationsToday,
+        latestEvents,
+        latestAuditLogs,
     };
 }
 
