@@ -1,10 +1,37 @@
-// Event Types
+export interface EventRule {
+  title: string
+  description: string
+}
+
+export interface RewardItem {
+  itemName: string
+  quantity: number
+  rarity: string
+}
+
+export interface Event {
+  _id: string
+  eventCode?: string
+  title: string
+  eventType: string
+  theme: string
+  targetSegment: string
+  duration: number
+  reward: string
+  tone: string
+  description: string
+  pushMessage: string
+  rules: EventRule[]
+  rewardSuggestion: RewardItem[]
+  status: 'draft' | 'reviewed' | 'published'
+  createdAt: string
+  updatedAt: string
+}
+
 export interface EventInput {
   eventType: string
   theme: string
   targetSegment: string
-  startDate: string
-  endDate: string
   duration: number
   reward: string
   tone: string
@@ -18,24 +45,26 @@ export interface AIGeneratedContent {
   rewardSuggestion: string
 }
 
-export interface Event extends EventInput {
+export interface AuditLog {
   _id: string
-  aiContent: AIGeneratedContent
-  status: 'draft' | 'published' | 'archived'
+  action: string
+  entityType: string
+  entityId: string | null
+  operator: string
+  metadata: Record<string, unknown>
   createdAt: string
   updatedAt: string
-  eventCode?: string
 }
 
-// Dashboard Stats
 export interface DashboardStats {
   totalEvents: number
   draftEvents: number
   publishedEvents: number
   aiGenerationsToday: number
+  latestEvents: Event[]
+  latestAuditLogs: AuditLog[]
 }
 
-// Toast Notification
 export interface Toast {
   id: string
   type: 'success' | 'error' | 'warning' | 'info'
@@ -43,7 +72,6 @@ export interface Toast {
   duration?: number
 }
 
-// API Response
 export interface ApiResponse<T> {
   success: boolean
   data: T

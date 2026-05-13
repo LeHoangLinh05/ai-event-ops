@@ -17,10 +17,10 @@ type PaginatedResponse<T> = { success: boolean; data: T[]; pagination: { total: 
 
 // Event APIs
 export const eventService = {
-  getEvents: (page = 1, limit = 10, status?: string, type?: string) => {
+  getEvents: (page = 1, limit = 10, status?: string, eventType?: string) => {
     const params = new URLSearchParams({ page: page.toString(), limit: limit.toString() })
     if (status) params.append('status', status)
-    if (type) params.append('type', type)
+    if (eventType) params.append('eventType', eventType)
     return apiClient.get<PaginatedResponse<Event>>(`/events?${params}`)
   },
 
