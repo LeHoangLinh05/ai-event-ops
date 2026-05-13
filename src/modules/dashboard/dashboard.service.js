@@ -1,8 +1,12 @@
 const Event = require("../events/event.model");
 const EventTemplate = require("../event-templates/event-template.model");
 const AuditLog = require("../audit-logs/audit-log.model");
+const AiGeneration = require("../ai/ai.model");
 
 async function getDashboardSummary() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     const [
         totalEvents,
         draftEvents,
@@ -10,6 +14,8 @@ async function getDashboardSummary() {
         publishedEvents,
         totalTemplates,
         totalAuditLogs,
+        totalAiGenerations,
+        aiGenerationsToday,
     ] = await Promise.all([
         Event.countDocuments(),
         Event.countDocuments({ status: "draft" }),
@@ -17,23 +23,18 @@ async function getDashboardSummary() {
         Event.countDocuments({ status: "published" }),
         EventTemplate.countDocuments(),
         AuditLog.countDocuments(),
+        AiGeneration.countDocuments({ status: "success" }),
+        AiGeneration.countDocuments({ 
+            status: "success", 
+            createdAt: { $gte: today } 
+        }),
     ]);
 
     return {
-        events: {
-            total: totalEvents,
-            draft: draftEvents,
-            reviewed: reviewedEvents,
-            published: publishedEvents,
-        },
-
-        templates: {
-            total: totalTemplates,
-        },
-
-        auditLogs: {
-            total: totalAuditLogs,
-        },
+        totalEvents,
+        draftEvents,
+        publishedEvents,
+        aiGenerationsToday,
     };
 }
 

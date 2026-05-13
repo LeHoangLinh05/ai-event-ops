@@ -4,7 +4,9 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js",
+    "dev:be": "nodemon src/server.js",
+    "dev:fe": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:be\" \"npm run dev:fe\"",
     "start": "node src/server.js"
   },
   "author": "",
@@ -12,7 +14,9 @@
   "keywords": [],
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.16.0",
+    "concurrently": "^9.2.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

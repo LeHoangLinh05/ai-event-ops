@@ -1,10 +1,6 @@
 const { body } = require("express-validator");
 
 const createEventValidation = [
-    body("title")
-        .notEmpty()
-        .withMessage("title is required"),
-
     body("eventType")
         .notEmpty()
         .withMessage("eventType is required"),
@@ -18,11 +14,6 @@ const createEventValidation = [
         .optional()
         .isArray()
         .withMessage("rules must be an array"),
-
-    body("rewardSuggestion")
-        .optional()
-        .isArray()
-        .withMessage("rewardSuggestion must be an array"),
 
     body("status")
         .optional()

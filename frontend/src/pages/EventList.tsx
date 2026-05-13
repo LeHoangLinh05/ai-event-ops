@@ -24,8 +24,8 @@ export const EventList = () => {
       setLoading(true)
       setError(null)
       const response = await eventService.getEvents(page, limit, statusFilter || undefined, typeFilter || undefined)
-      setEvents(response.data.events)
-      setTotal(response.data.total)
+      setEvents(response.data.data)
+      setTotal(response.data.pagination.total)
     } catch (err: any) {
       setError(err.message || 'Failed to load events')
     } finally {

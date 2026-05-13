@@ -3,6 +3,8 @@ export interface EventInput {
   eventType: string
   theme: string
   targetSegment: string
+  startDate: string
+  endDate: string
   duration: number
   reward: string
   tone: string

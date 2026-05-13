@@ -27,7 +27,7 @@ export const Dashboard = () => {
       try {
         setLoading(true)
         const response = await dashboardService.getStats()
-        setStats(response.data)
+        setStats(response.data.data)
       } catch (err: any) {
         setError(err.message || 'Failed to load dashboard stats')
       } finally {

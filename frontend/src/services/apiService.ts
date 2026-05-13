@@ -35,7 +35,7 @@ export const aiService = {
     apiClient.post<AIGeneratedContent>('/ai/generate-event', input),
 
   regenerateField: (field: 'title' | 'description' | 'pushMessage' | 'rules' | 'rewardSuggestion', input: EventInput) =>
-    apiClient.post<{ [key: string]: string | string[] }>('/ai/regenerate-field', { field, ...input }),
+    apiClient.post<{ [key: string]: string | string[] }>('/ai/regenerate-field', { field, context: input }),
 }
 
 // Dashboard APIs

@@ -10,7 +10,7 @@ const eventSchema = new mongoose.Schema(
 
         title: {
             type: String,
-            required: true,
+            default: "",
             trim: true,
         },
 
@@ -35,6 +35,16 @@ const eventSchema = new mongoose.Schema(
             default: 0,
         },
 
+        startDate: {
+            type: Date,
+            default: null,
+        },
+
+        endDate: {
+            type: Date,
+            default: null,
+        },
+
         reward: {
             type: String,
             default: "",
@@ -56,24 +66,18 @@ const eventSchema = new mongoose.Schema(
         },
 
         rules: {
-            type: [
-                {
-                    title: String,
-                    description: String,
-                },
-            ],
+            type: [String],
             default: [],
         },
 
         rewardSuggestion: {
-            type: [
-                {
-                    itemName: String,
-                    quantity: Number,
-                    rarity: String,
-                },
-            ],
-            default: [],
+            type: String,
+            default: "",
+        },
+
+        aiContent: {
+            type: Object,
+            default: {},
         },
 
         status: {
