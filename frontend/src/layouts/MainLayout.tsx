@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react'
 import { Sidebar, Header, ToastContainer } from '@/components'
-import { useToast } from '@/hooks'
+import { useToastContext } from '@/contexts/ToastContext'
 import './MainLayout.css'
 
 interface MainLayoutProps {
@@ -9,7 +9,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { toasts, removeToast } = useToast()
+  const { toasts, removeToast } = useToastContext()
 
   return (
     <div className="main-layout">

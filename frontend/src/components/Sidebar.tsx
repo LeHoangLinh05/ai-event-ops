@@ -1,5 +1,4 @@
 import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
 import './Sidebar.css'
 import { Link, useLocation } from 'react-router-dom'
 

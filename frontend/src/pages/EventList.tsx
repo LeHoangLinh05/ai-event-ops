@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Search, ChevronLeft, ChevronRight, Eye, Edit2, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, Edit2, Trash2 } from 'lucide-react'
 import { eventService } from '@/services/apiService'
 import { LoadingSpinner } from '@/components'
 import { Event } from '@/types'
